@@ -2,9 +2,13 @@ package me.rayzr522.unrank;
 
 import me.rayzr522.unrank.command.CommandUnrank;
 import me.rayzr522.unrank.data.TierManager;
+import me.rayzr522.unrank.listeners.PlayerListener;
 import me.rayzr522.unrank.utils.MessageHandler;
+import net.milkbowl.vault.permission.Permission;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -18,6 +22,7 @@ public class Unrank extends JavaPlugin {
     private static Unrank instance;
     private final MessageHandler messages = new MessageHandler();
     private final TierManager tierManager = new TierManager(this);
+    private Permission permissions;
 
     /**
      * @return The current instance of Unrank.
@@ -28,6 +33,12 @@ public class Unrank extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        if (!setupPermissions()) {
+            Bukkit.getPluginManager().disablePlugin(this);
+            getLogger().severe("Failed to connect to any permissions plugins via Vault!");
+            return;
+        }
+
         instance = this;
 
         // Load configs
@@ -35,6 +46,9 @@ public class Unrank extends JavaPlugin {
 
         // Set up commands
         getCommand("unrank").setExecutor(new CommandUnrank(this));
+
+        // Register events
+        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
     }
 
     @Override
@@ -51,6 +65,12 @@ public class Unrank extends JavaPlugin {
 
         messages.load(getConfig("messages.yml"));
         tierManager.load();
+    }
+
+    private boolean setupPermissions() {
+        RegisteredServiceProvider<Permission> serviceProvider = getServer().getServicesManager().getRegistration(Permission.class);
+        permissions = serviceProvider.getProvider();
+        return permissions != null;
     }
 
     /**
@@ -130,4 +150,11 @@ public class Unrank extends JavaPlugin {
         return messages;
     }
 
+    public TierManager getTierManager() {
+        return tierManager;
+    }
+
+    public Permission getPermissions() {
+        return permissions;
+    }
 }
