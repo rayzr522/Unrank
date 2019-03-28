@@ -1,0 +1,12 @@
+main: me.rayzr522.unrank.Unrank
+
+name: ${project.name}
+description: ${project.description}
+version: ${project.version}
+author: Rayzr
+
+commands:
+  unrank:
+    description: The main command for Unrank.
+    # aliases: []
+    usage: "\u00A7cRayzr hecc'd something up."
