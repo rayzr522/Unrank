@@ -1,6 +1,7 @@
 package me.rayzr522.unrank;
 
 import me.rayzr522.unrank.command.CommandUnrank;
+import me.rayzr522.unrank.data.TierManager;
 import me.rayzr522.unrank.utils.MessageHandler;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -15,7 +16,8 @@ import java.util.logging.Level;
  */
 public class Unrank extends JavaPlugin {
     private static Unrank instance;
-    private MessageHandler messages = new MessageHandler();
+    private final MessageHandler messages = new MessageHandler();
+    private final TierManager tierManager = new TierManager(this);
 
     /**
      * @return The current instance of Unrank.
@@ -48,12 +50,13 @@ public class Unrank extends JavaPlugin {
         reloadConfig();
 
         messages.load(getConfig("messages.yml"));
+        tierManager.load();
     }
 
     /**
-     * If the file is not found and there is a default file in the JAR, it saves the default file to the plugin data folder first
+     * If the file is not found and there is a default file in the JAR, it saves the default file to the plugin types folder first
      *
-     * @param path The path to the config file (relative to the plugin data folder)
+     * @param path The path to the config file (relative to the plugin types folder)
      * @return The {@link YamlConfiguration}
      */
     public YamlConfiguration getConfig(String path) {
@@ -67,7 +70,7 @@ public class Unrank extends JavaPlugin {
      * Attempts to save a {@link YamlConfiguration} to the disk, with any {@link IOException}s being printed to the console.
      *
      * @param config The config to save
-     * @param path   The path to save the config file to (relative to the plugin data folder)
+     * @param path   The path to save the config file to (relative to the plugin types folder)
      */
     public void saveConfig(YamlConfiguration config, String path) {
         try {
@@ -78,7 +81,7 @@ public class Unrank extends JavaPlugin {
     }
 
     /**
-     * @param path The path of the file (relative to the plugin data folder)
+     * @param path The path of the file (relative to the plugin types folder)
      * @return The {@link File}
      */
     public File getFile(String path) {
