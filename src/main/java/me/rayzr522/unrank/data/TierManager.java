@@ -70,6 +70,9 @@ public class TierManager {
             plugin.getPermissions().playerRemoveGroup(player, currentRank);
         } catch (Exception e) {
             plugin.getLogger().log(Level.SEVERE, "Failed to unrank player!", e);
+            return;
         }
+
+        player.sendMessage(plugin.tr("command.unrank.player-reset", unrankTier.getTargetRank()));
     }
 }

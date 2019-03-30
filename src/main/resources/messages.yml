@@ -22,3 +22,5 @@ command:
                 &7/unrank &chelp|? &8-&6 Shows this help message.
         version: "You are running &c%s&6 version &c%s%6."
         reloaded: "Reloaded the config successfully!"
+        reset: "Resetting all player ranks..."
+        player-reset: "Your rank has been reset to &e%s&6."

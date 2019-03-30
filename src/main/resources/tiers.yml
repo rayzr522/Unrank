@@ -1,0 +1,11 @@
+basic:
+    target-rank: basic
+    included-ranks:
+        - pro
+        - epic
+        - legend
+legend:
+    target-rank: legend
+    included-ranks:
+        - angel
+        - god
