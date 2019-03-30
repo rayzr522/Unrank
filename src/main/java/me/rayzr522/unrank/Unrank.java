@@ -157,4 +157,5 @@ public class Unrank extends JavaPlugin {
     public Permission getPermissions() {
         return permissions;
     }
+
 }

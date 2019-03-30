@@ -3,6 +3,7 @@ package me.rayzr522.unrank.data;
 import me.rayzr522.unrank.Unrank;
 import me.rayzr522.unrank.types.UnrankTier;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,5 +48,28 @@ public class TierManager {
         return tierList.stream()
                 .filter(tier -> tier.getIncludedRanks().contains(rank))
                 .findFirst();
+    }
+
+    /**
+     * Attempts to unrank a player.
+     *
+     * @param player The player to unrank.
+     */
+    public void unrankPlayer(Player player) {
+        String currentRank = plugin.getPermissions().getPrimaryGroup(player);
+        Optional<UnrankTier> optionalUnrankTier = plugin.getTierManager().getTier(currentRank);
+
+        if (!optionalUnrankTier.isPresent()) {
+            return;
+        }
+
+        UnrankTier unrankTier = optionalUnrankTier.get();
+
+        try {
+            plugin.getPermissions().playerAddGroup(player, unrankTier.getTargetRank());
+            plugin.getPermissions().playerRemoveGroup(player, currentRank);
+        } catch (Exception e) {
+            plugin.getLogger().log(Level.SEVERE, "Failed to unrank player!", e);
+        }
     }
 }
