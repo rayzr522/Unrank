@@ -1,10 +1,10 @@
-basic:
+tier 1:
     target-rank: basic
     included-ranks:
         - pro
         - epic
         - legend
-legend:
+tier 2:
     target-rank: legend
     included-ranks:
         - angel

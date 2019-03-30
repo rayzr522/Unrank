@@ -158,4 +158,18 @@ public class Unrank extends JavaPlugin {
         return permissions;
     }
 
+    /**
+     * Updates the last reset time to the current time.
+     */
+    public void updateLastResetTime() {
+        getConfig().set("last-reset", System.currentTimeMillis());
+        saveConfig();
+    }
+
+    /**
+     * @return The last time that Unrank was activated and user ranks were reset.
+     */
+    public long getLastResetTime() {
+        return getConfig().getLong("last-reset", 0L);
+    }
 }

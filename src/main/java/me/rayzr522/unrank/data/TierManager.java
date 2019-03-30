@@ -2,6 +2,7 @@ package me.rayzr522.unrank.data;
 
 import me.rayzr522.unrank.Unrank;
 import me.rayzr522.unrank.types.UnrankTier;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -56,7 +57,9 @@ public class TierManager {
      * @param player The player to unrank.
      */
     public void unrankPlayer(Player player) {
-        String currentRank = plugin.getPermissions().getPrimaryGroup(player);
+        Permission permissions = plugin.getPermissions();
+
+        String currentRank = permissions.getPrimaryGroup(player);
         Optional<UnrankTier> optionalUnrankTier = plugin.getTierManager().getTier(currentRank);
 
         if (!optionalUnrankTier.isPresent()) {
@@ -66,8 +69,12 @@ public class TierManager {
         UnrankTier unrankTier = optionalUnrankTier.get();
 
         try {
-            plugin.getPermissions().playerAddGroup(player, unrankTier.getTargetRank());
-            plugin.getPermissions().playerRemoveGroup(player, currentRank);
+            permissions.playerAddGroup(player, unrankTier.getTargetRank());
+
+            // Remove all previous ranks
+            unrankTier.getIncludedRanks().stream()
+                    .filter(rank -> permissions.playerInGroup(player, rank))
+                    .forEach(rank -> permissions.playerRemoveGroup(null, player, rank));
         } catch (Exception e) {
             plugin.getLogger().log(Level.SEVERE, "Failed to unrank player!", e);
             return;

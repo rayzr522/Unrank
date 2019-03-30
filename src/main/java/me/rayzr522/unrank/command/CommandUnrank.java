@@ -1,9 +1,12 @@
 package me.rayzr522.unrank.command;
 
 import me.rayzr522.unrank.Unrank;
+import me.rayzr522.unrank.data.TierManager;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CommandUnrank implements CommandExecutor {
     private final Unrank plugin;
@@ -14,13 +17,6 @@ public class CommandUnrank implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-//        if (!(sender instanceof Player)) {
-//            sender.sendMessage(plugin.tr("command.fail.only-players"));
-//            return true;
-//        }
-//
-//        Player player = (Player) sender;
-
         if (!plugin.checkPermission(sender, "use", true)) {
             return true;
         }
@@ -39,6 +35,11 @@ public class CommandUnrank implements CommandExecutor {
             case "reload":
                 plugin.reload();
                 sender.sendMessage(plugin.tr("command.unrank.reloaded"));
+                break;
+            case "reset":
+                sender.sendMessage(plugin.tr("command.unrank.reset"));
+                Bukkit.getServer().getOnlinePlayers().forEach(player -> player.kickPlayer(plugin.tr("kick.reset")));
+                plugin.updateLastResetTime();
                 break;
             case "help":
             case "?":

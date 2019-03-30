@@ -20,11 +20,10 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        // Date lastJoined = new Date(player.getLastPlayed());
-        // TODO: Compare to when to reset from!
-
-        // Bump down their rank!
-        plugin.getTierManager().unrankPlayer(player);
+        if (player.getLastPlayed() < plugin.getLastResetTime()) {
+            // Bump down their rank!
+            plugin.getTierManager().unrankPlayer(player);
+        }
     }
 
 }

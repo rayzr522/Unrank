@@ -10,6 +10,10 @@ error:
         no-player: "The player '%s' does not exist!"
         not-number: "'%s' is not a valid number!"
 
+kick:
+    prefix: "&e"
+    reset: "Please re-join to have your ranks re-applied!"
+
 # Command-related messages
 command:
     unrank:
@@ -17,6 +21,7 @@ command:
             prefix: ""
             message: |
                 &8&m---------------&e Unrank &8&m---------------
+                &7/unrank &creset &8-&6 Unranks all players.
                 &7/unrank &creload &8-&6 Reloads the config.
                 &7/unrank &cversion &8-&6 Shows the plugin version.
                 &7/unrank &chelp|? &8-&6 Shows this help message.
