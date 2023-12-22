@@ -15,7 +15,3 @@ The only requirements are **Vault** and a permissions plugin!
 Simply configure the `tiers.yml` file to suit your soft-reset needs, and then run `/unrank reset` in-game or from the server console. (This requires the `Unrank.use` permission)
 
 All online players will be kicked, and upon re-joining, player will have their ranks soft-reset based on your configured tiers.
-
-## Join Me
-
-[![Discord Badge](https://github.com/Rayzr522/ProjectResources/raw/master/RayzrDev/badge-small.png)](https://rayzr.dev/join)
